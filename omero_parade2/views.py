@@ -16,7 +16,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render
+from django.http import HttpResponse
+# from django.shortcuts import render
+from django.template import loader
+from django.templatetags import static
 
 from omeroweb.decorators import login_required
 
@@ -30,6 +33,21 @@ def index(request, conn=None, **kwargs):
     # See https://docs.openmicroscopy.org/latest/omero/developers/Python.html
     experimenter = conn.getUser()
 
+    # Load the template html and replace OMEROWEB_INDEX
+    template = loader.get_template("omero_parade2/index.html")
+    html = template.render({}, request)
+
+    # update links to static files
+    static_dir = static.static('omero_parade2/')
+    html = html.replace('href="/static/omero_parade2/', 'href="%s' % static_dir)
+    html = html.replace('src="/static/omero_parade2/', 'src="%s' % static_dir)
+    html = html.replace('const STATIC_DIR = "";',
+                        'const STATIC_DIR = "%s";' % static_dir[0:-1])
+    
+
+    # html = html.replace('window.PATH_TO_ASSETS = "/src/assets/',
+    #                     'window.PATH_TO_ASSETS = "%s' % static_dir)
+
     # A dictionary of data to pass to the html template
     context = {
         "firstName": experimenter.firstName,
@@ -40,4 +58,6 @@ def index(request, conn=None, **kwargs):
     # print('context', context)
 
     # Render the html template and return the http response
-    return render(request, "omero_parade2/index.html", context)
+    # return render(request, "omero_parade2/index.html", context)
+
+    return HttpResponse(html)
