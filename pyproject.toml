@@ -1,0 +1,35 @@
+[build-system]
+requires = [
+    "setuptools",
+]
+
+[project]
+name = "omero-parade2"
+version = "0.1.0.dev0"
+description = "OMERO parade re-implemented with the mosaic framework"
+authors = [ 
+   {name = "William Moore", email = "w.moore@dundee.ac.uk"}
+]
+license = {file = "LICENSE"}
+keywords = ["omero", "omero-web"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Environment :: Plugins",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU Affero General Public License v3 ",  # noqa
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">= 3.9"
+
+[project.urls]
+Repository = "https://github.com/will-moore/omero-parade2"
+Download = "https://github.com/will-moore/omero-parade2/v0.1.0.dev0.tar.gz"
+
+[project.optional-dependencies]
+test = [
+    "pytest"
+]
