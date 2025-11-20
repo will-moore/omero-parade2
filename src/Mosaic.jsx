@@ -14,10 +14,10 @@ import { AddPlot } from "./AddPlot";
 
 const TABLE_NAME = "my_table";
 
-// const defaultSource = `https://raw.githubusercontent.com/will-moore/ome2024-ngff-challenge/refs/heads/biofile_finder_csvs/samples/idr0010_images_bff.csv`;
-const defaultSource = `${window.location}omero_table.csv`
+function Mosaic(props) {
 
-function Mosaic() {
+  const { tableUrl } = props;
+
   const [selection, setSelection] = useState(null);
   const [plots, setPlots] = useState([]);
 
@@ -34,17 +34,13 @@ function Mosaic() {
     async function setupMosaic() {
       console.log("Setting up Mosaic...");
 
-      // Use ?query parameter "source" to get Table URL...
-      const params = new URLSearchParams(window.location.search);
-      const TABLE_URL = params.get("source") || defaultSource;
-
       // set up DuckDB connector
       const wasm = new DuckDBWASMConnector({ log: false });
       coordinator().databaseConnector(wasm);
 
       await vg
         .coordinator()
-        .exec([loadCSV(TABLE_NAME, TABLE_URL)]);
+        .exec([loadCSV(TABLE_NAME, tableUrl)]);
 
       const newSelection = Selection.intersect();
       // trigger a re-render with the new selection
@@ -60,7 +56,7 @@ function Mosaic() {
       console.log("html:", html);
     }
     setupMosaic();
-  }, []);
+  }, [tableUrl]);
 
   return (
     <>

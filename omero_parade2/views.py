@@ -20,6 +20,7 @@ from django.http import HttpResponse
 # from django.shortcuts import render
 from django.template import loader
 from django.templatetags import static
+from django.urls import reverse
 
 from omeroweb.decorators import login_required
 
@@ -45,8 +46,11 @@ def index(request, conn=None, **kwargs):
                         'const STATIC_DIR = "%s";' % static_dir[0:-1])
     
 
-    # html = html.replace('window.PATH_TO_ASSETS = "/src/assets/',
-    #                     'window.PATH_TO_ASSETS = "%s' % static_dir)
+    omeroweb_index = reverse('index')
+    # make url abosolute
+    omeroweb_index = request.build_absolute_uri(omeroweb_index)
+    html = html.replace('window.OMEROWEB_INDEX = undefined;',
+                        'window.OMEROWEB_INDEX = "%s";' % omeroweb_index)
 
     # A dictionary of data to pass to the html template
     context = {
