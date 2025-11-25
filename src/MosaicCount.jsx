@@ -3,8 +3,9 @@ import { count, Query } from "@uwdata/mosaic-sql";
 import { useState, useEffect } from "react";
 
 /** Show the number of rows in the table.
+ * Example from https://idl.uw.edu/mosaic/web-clients/ 
  * If a `selection` is provided, show the filtered number of rows as well. */
-export function Count(props) {
+export default function MosaicCount(props) {
   const { coordinator, table, selection } = props;
 
   const [totalCount, setTotalCount] = useState(null);
@@ -15,6 +16,10 @@ export function Count(props) {
   useEffect(() => {
     // Note that the identity of `table` and `selection` is captured below.
     // If they are replaced with a new instances, the client will get recreated as well.
+    console.log("Moasic Count, ", selection);
+    if (!selection) {
+        return;
+    }
 
     const client = makeClient({
       coordinator,

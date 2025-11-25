@@ -8,17 +8,16 @@ import {
 import { loadCSV } from "@uwdata/mosaic-sql";
 import * as vg from "@uwdata/vgplot";
 
-import { Count } from "./TableCount";
 import { ScatterPlot } from "./ScatterPlot";
 import { AddPlot } from "./AddPlot";
 
-const TABLE_NAME = "my_table";
+export const TABLE_NAME = "my_table";
 
 function Mosaic(props) {
 
-  const { tableUrl } = props;
+  const { tableUrl, setSelection, selection } = props;
 
-  const [selection, setSelection] = useState(null);
+  // const [selection, setSelection] = useState(null);
   const [plots, setPlots] = useState([]);
 
   function addPlot(plotConfig) {
@@ -60,12 +59,6 @@ function Mosaic(props) {
 
   return (
     <>
-      <Count
-        coordinator={coordinator()}
-        table={TABLE_NAME}
-        selection={selection}
-      />
-
       {/* only render when selection is set */}
       {selection && (
         <div>

@@ -2,7 +2,10 @@
 // React Component for navigation bar
 import React from "react";
 
-export default function NavBar() {
+import MosaicCount from "./MosaicCount";
+
+export default function NavBar(props) {
+    const { coordinator, table, selection } = props;
 
     const styles = {
         navbar: {
@@ -22,6 +25,8 @@ export default function NavBar() {
   return (
     <nav style={styles.navbar}>
       OMERO.parade2
+      <div style={{ flex: "1 1 auto" }}></div>
+      <MosaicCount coordinator={coordinator} table={table} selection={selection} />
     </nav>
   );
 }

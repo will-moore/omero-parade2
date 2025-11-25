@@ -1,6 +1,9 @@
 import { useState } from "react";
-import omeLogo from "./assets/ome-logomark.svg";
+
+import { coordinator } from "@uwdata/mosaic-core";
+
 import "./App.css";
+import { TABLE_NAME } from "./Mosaic";
 import Mosaic from "./Mosaic";
 import TableChooser from "./TableChooser";
 import NavBar from "./NavBar";
@@ -49,11 +52,13 @@ function App() {
     },
   };
 
+  const [selection, setSelection] = useState(null);
+
   return (
     <>
       <TableChooser setTableUrl={setTableUrl} />
 
-      <NavBar />
+      <NavBar coordinator={coordinator()} table={TABLE_NAME} selection={selection} />
 
       {/* main content */}
       <div style={styles.main}>
@@ -62,7 +67,7 @@ function App() {
             <p>Table URL: {tableUrl} </p>
 
             {/* For now, don't load Mosaic till we have tableUrl */}
-            {tableUrl && <Mosaic tableUrl={tableUrl} />}
+            {tableUrl && <Mosaic tableUrl={tableUrl} setSelection={setSelection} selection={selection} />}
           </div>
           <div style={styles.footer}>
             Footer
