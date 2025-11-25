@@ -10,6 +10,7 @@ import * as vg from "@uwdata/vgplot";
 
 import { ScatterPlot } from "./ScatterPlot";
 import { AddPlot } from "./AddPlot";
+import OmeSpinner from "./OmeSpinner";
 
 export const TABLE_NAME = "my_table";
 
@@ -60,7 +61,7 @@ function Mosaic(props) {
   return (
     <>
       {/* only render when selection is set */}
-      {selection && (
+      {selection ? (
         <div>
           <AddPlot
             coordinator={coordinator()}
@@ -68,18 +69,8 @@ function Mosaic(props) {
             selection={selection}
             addPlot={addPlot}
           />
-
-          {/* <ScatterPlot
-            coordinator={coordinator()}
-            table={TABLE_NAME}
-            selection={selection}
-            xAxis={"Centroids_RAW_X"}
-            yAxis={"Centroids_RAW_Y"}
-            plotId={"scatter-plot-1"}
-            removePlot={removePlot}
-          /> */}
         </div>
-      )}
+      ) : <OmeSpinner />}
 
       {plots.map((plotConfig, index) => (
         <div key={plotConfig.plotId || index}>

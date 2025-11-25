@@ -7,6 +7,7 @@ import { TABLE_NAME } from "./Mosaic";
 import Mosaic from "./Mosaic";
 import TableChooser from "./TableChooser";
 import NavBar from "./NavBar";
+import { FooterTable } from "./FooterTable";
 
 function App() {
   // state to hold the selected table URL
@@ -37,6 +38,7 @@ function App() {
       flex: "1 1 auto",
       height: "200px",
       overflow: "auto",
+      position: "relative",
     },
     footer: {
       flex: "0 0 auto",
@@ -64,13 +66,11 @@ function App() {
       <div style={styles.main}>
         <div style={styles.center}>
           <div style={styles.plots}>
-            <p>Table URL: {tableUrl} </p>
-
             {/* For now, don't load Mosaic till we have tableUrl */}
             {tableUrl && <Mosaic tableUrl={tableUrl} setSelection={setSelection} selection={selection} />}
           </div>
           <div style={styles.footer}>
-            Footer
+            <FooterTable coordinator={coordinator()} table={TABLE_NAME} selection={selection} />
           </div>
         </div>
 

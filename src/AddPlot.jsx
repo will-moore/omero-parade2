@@ -8,6 +8,16 @@ export function AddPlot(props) {
   const [numberColNames, setNumberColNames] = useState([]);
   const [stringColNames, setStringColNames] = useState([]);
 
+  const syles = {
+    button: {
+      border: "1px solid rgb(51, 51, 51)",
+      borderRadius: "10px",
+      padding: "5px",
+      fontSize: "14px",
+      margin: "5px 10px",
+    },
+  };
+
   useEffect(() => {
     // Note that the identity of `table` and `selection` is captured below.
     // If they are replaced with a new instances, the client will get recreated as well.
@@ -38,25 +48,6 @@ export function AddPlot(props) {
         // But IF we don't implement this, we get "null" errors.
         return Query.from(table).select({ count: count() }).where(predicate);
       },
-      // queryResult: (data) => {
-      //   console.log("AddPlot queryResult()", data);
-      //   // The query result is available.
-      //   // setFilteredCount(data.get(0).count);
-      //   // setIsError(false);
-      //   // setIsPending(false);
-      // },
-      // queryPending: () => {
-      //   console.log("AddPlot queryPending()");
-      //   // The query is pending.
-      //   // setIsPending(true);
-      //   // setIsError(false);
-      // },
-      // queryError: () => {
-      //   console.log("AddPlot queryError()");
-      //   // There is an error running the query.
-      //   // setIsPending(false);
-      //   // setIsError(true);
-      // },
     });
 
     return () => {
@@ -66,7 +57,7 @@ export function AddPlot(props) {
   }, [coordinator, table, selection]);
 
   return (
-    <div>
+    <div style={{ margin: "5px 15px" }}>
       <label>X-axis:</label>
       <select id="xaxis-select">
         {numberColNames.map((colName) => (
@@ -86,6 +77,7 @@ export function AddPlot(props) {
       </select>
 
       <button
+        style={syles.button}
         onClick={() => {
           let plotId = `scatter-plot-${Date.now()}`;
           const xAxis = document.getElementById("xaxis-select").value;

@@ -49,8 +49,8 @@ export function ScatterPlot(props) {
       selection,
       xAxis,
       yAxis,
-      600,
-      400,
+      500,
+      300,
       plotId
     );
 
