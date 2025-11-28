@@ -8,10 +8,13 @@ import Mosaic from "./Mosaic";
 import TableChooser from "./TableChooser";
 import NavBar from "./NavBar";
 import { FooterTable } from "./FooterTable";
+import Thumbnails from "./Thumbnails";
 
 function App() {
   // state to hold the selected table URL
   const [tableUrl, setTableUrl] = useState(null);
+  const [footerTab, setFooterTab] = useState("table");
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const styles = {
     main: {
@@ -60,17 +63,65 @@ function App() {
     <>
       <TableChooser setTableUrl={setTableUrl} />
 
-      <NavBar coordinator={coordinator()} table={TABLE_NAME} selection={selection} />
+      <NavBar
+        coordinator={coordinator()}
+        table={TABLE_NAME}
+        selection={selection}
+      />
 
       {/* main content */}
       <div style={styles.main}>
         <div style={styles.center}>
           <div style={styles.plots}>
             {/* For now, don't load Mosaic till we have tableUrl */}
-            {tableUrl && <Mosaic tableUrl={tableUrl} setSelection={setSelection} selection={selection} />}
+            {tableUrl && (
+              <Mosaic
+                tableUrl={tableUrl}
+                setSelection={setSelection}
+                selection={selection}
+              />
+            )}
           </div>
           <div style={styles.footer}>
-            <FooterTable coordinator={coordinator()} table={TABLE_NAME} selection={selection} />
+            <div style={{ borderBottom: "solid #ccc 1px", marginBottom: "10px" }}>
+              <input
+                type="radio"
+                id="footer-table"
+                name="footer-tab"
+                value="table"
+                checked={footerTab === "table"}
+                onChange={() => setFooterTab("table")}
+              />
+              <label htmlFor="footer-table" style={{ marginRight: "15px" }}>
+                Table
+              </label>
+              <input
+                type="radio"
+                id="footer-thumbnails"
+                name="footer-tab"
+                value="thumbnails"
+                checked={footerTab === "thumbnails"}
+                onChange={() => setFooterTab("thumbnails")}
+              />
+              <label htmlFor="footer-thumbnails">Thumbnails</label>
+            </div>
+            <div style={{ display: footerTab === "table" ? "block" : "none" }}>
+              <FooterTable
+                coordinator={coordinator()}
+                table={TABLE_NAME}
+                selection={selection}
+              />
+            </div>
+            <div
+              style={{ display: footerTab === "thumbnails" ? "block" : "none" }}
+            >
+              <Thumbnails
+                coordinator={coordinator()}
+                table={TABLE_NAME}
+                selection={selection}
+                setSelected={setSelectedRows}
+              />
+            </div>
           </div>
         </div>
 
