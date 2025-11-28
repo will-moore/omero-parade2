@@ -12,19 +12,6 @@ Installation
 
 This section assumes that an OMERO.web is already installed. See [OMERO.web installation instructions]<https://github.com/ome/omero-web/blob/master/README.rst> for more details.
 
-Installing from Pypi
---------------------
-
-Install the app using [pip](<https://pip.pypa.io/en/stable/>) .
-
-Ensure that you are running ``pip`` from the Python environment
-where ``omero-web`` is installed. Depending on your install, you may need to
-call ``pip`` with, for example: ``/path/to_web_venv/venv/bin/pip install ...``
-
-::
-
-    $ pip install -U omero-parade2
-
 
 Development mode
 ----------------
@@ -35,7 +22,20 @@ Install `omero-parade2` in development mode as follows:
     $ cd omero-parade2
     $ pip install -e .
 
-After installation either from [Pypi](https://pypi.org/) or in development mode, you need to configure the application.
+You need to build the JavaScript bundle with `pnpm` or `npm`:
+
+    $ npm run build
+
+To rebuild when files are changed and saved:
+
+    $ npm run watch
+
+To run a dev server and load a csv from OMERO or elsewhere:
+
+    $ npm run dev
+
+
+After installation you need to configure the application.
 To add the application to the `omero.web.apps` settings, run the following command:
 
 Note the usage of single quotes around double quotes:
@@ -51,8 +51,8 @@ Open-with config:
 
     $ omero config append omero.web.open_with '["Parade 2", "omero_parade2_index", {"supported_objects": ["project", "dataset", "image", "screen", "plate"]}]'
 
-Now restart your `omero-web` server and go to
-<http://localhost:4080/omero_parade2/> in your browser.
+Now restart your `omero-web` server use the `Open with` on a object that has a `csv` or `OMERO.table` File Annotation.
+You will be able to choose the annotation (table) you want to open in Parade 2 app.
 
 
 Further Info
