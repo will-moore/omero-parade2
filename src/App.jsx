@@ -119,7 +119,7 @@ function App() {
                 coordinator={coordinator()}
                 table={TABLE_NAME}
                 selection={selection}
-                setSelected={setSelectedRows}
+                setSelectedRows={setSelectedRows}
                 selectedRows={selectedRows}
               />
             </div>

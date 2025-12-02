@@ -9,25 +9,29 @@ const columnCount = 10;
 const columnWidth = 90;
 
 export default function MosaicCount(props) {
-  const { coordinator, table, selection, setSelected, selectedRows } = props;
-
+  const { coordinator, table, selection, setSelectedRows, selectedRows } = props;
+ 
   // const [totalCount, setTotalCount] = useState(null);
   const [rowsToDisplay, setRowsToDisplay] = useState([]);
+  const ROW_ID = "File Path";
 
-  function onClick(event, url){
-      if (selectedRows.includes(url)) {
+  function onClick(event, row){
+      console.log("Selected rows length "+selectedRows.length)
+      let url = row[ROW_ID];
+      let selectedIDs = selectedRows.map(r => r[ROW_ID])
+      if (selectedIDs.includes(url)) {
         // toggle selection off if already selected...
-        setSelected(selectedRows.filter((d) => d !== url));
+        setSelectedRows(selectedRows.filter((d) => d[ROW_ID] !== url));
 
       } else {
         // if Cmd or Ctrl key held, allow multi-select
         if (!event.metaKey && !event.ctrlKey) {
           // no modifier key, so
           // de-select all others and select this one...
-          setSelected([url]);
+          setSelectedRows([row]);
         } else {
           // OR: allow multiple selection...
-          setSelected([...selectedRows, url]);
+          setSelectedRows([...selectedRows, row]);
         }
       }
   }
@@ -62,7 +66,7 @@ export default function MosaicCount(props) {
       },
       queryPending: () => {
         // Clear selected images when a new query is pending...
-        setSelected([]);
+        setSelectedRows([]);
       },
       queryError: () => {
         // There is an error running the query.
@@ -80,7 +84,7 @@ export default function MosaicCount(props) {
       Thumbnails ({rowsToDisplay.length}, rows: {Math.ceil(rowsToDisplay.length / columnCount)} ):
       <Grid
         cellComponent={Thumbnail}
-        cellProps={{ rowsToDisplay, setSelected, selectedRows, columnCount: columnCount, onClick }}
+        cellProps={{ rowsToDisplay, setSelectedRows, selectedRows, columnCount: columnCount, onClick }}
         columnCount={columnCount}
         columnWidth={columnWidth}
         rowCount={Math.ceil(rowsToDisplay.length / columnCount)}

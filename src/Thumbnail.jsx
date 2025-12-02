@@ -13,6 +13,9 @@ export default function Thumbnail(props) {
   }
 
   const row = rowsToDisplay[index];
+  const ROW_ID = "File Path";
+  let selectedIDs = selectedRows.map(r => r[ROW_ID])
+  console.log("selected ids ", selectedIDs)
   console.log("Thumbnail row:", row);
 
   const [imageUrl, setImageUrl] = useState(
@@ -59,7 +62,7 @@ export default function Thumbnail(props) {
       <img
 
         onClick={(event) => {
-          onClick(event, imageUrl)
+          onClick(event, row)
         }}
 
         src={imageUrl}
@@ -70,7 +73,7 @@ export default function Thumbnail(props) {
           objectFit: "cover",
           backgroundColor: "#eee",
           boxSizing: "border-box",
-          border: selectedRows.includes(imageUrl) ? "5px solid blue" : "0px solid blue"
+          border: selectedIDs.includes(row[ROW_ID]) ? "5px solid blue" : "0px solid blue"
         }}
       />
     </div>
