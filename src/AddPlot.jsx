@@ -58,15 +58,6 @@ export function AddPlot(props) {
 
   return (
     <div style={{ margin: "5px 15px" }}>
-      <label>Plot:</label>
-      <select id="plot-select">
-        {numberColNames.map((colName) => (
-          <option key={colName} value={colName}>
-            {colName}
-          </option>
-        ))}
-      </select>     
-
       <label>X-axis:</label>
       <select id="xaxis-select">
         {numberColNames.map((colName) => (
@@ -79,6 +70,15 @@ export function AddPlot(props) {
       <label>Y-axis:</label>
       <select id="yaxis-select">
         {numberColNames.map((colName) => (
+          <option key={colName} value={colName}>
+            {colName}
+          </option>
+        ))}
+      </select>
+
+      <label>Y-axis-string:</label>
+      <select id="yaxis-string">
+        {stringColNames.map((colName) => (
           <option key={colName} value={colName}>
             {colName}
           </option>
@@ -112,13 +112,12 @@ export function AddPlot(props) {
         style={syles.button}
         onClick={() => {
           let plotId = `bar-chart-${Date.now()}`;
-          const yAxis = document.getElementById("yaxis-select").value;
+          const yAxis = document.getElementById("yaxis-string").value;
           addPlot({ yAxis, plotId, type: "bar" });
         }}
       >
         Add Bar Chart
       </button>
-
     </div>
   );
 }
