@@ -13,12 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  color: light-dark(#2f2f2f, #efefec);
-  background-color: light-dark(#efedea, #2f2f2f);
-}
-
-
 #root {
   inset: 0;
   height: 100%;
@@ -69,7 +63,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Override pour le mode sombre */
+/* To handle light-dark mode */
 @media (prefers-color-scheme: light) {
   :root {
     color: light-dark(#2f2f2f, #efefec);
@@ -83,17 +77,3 @@ button:focus-visible {
     background-color: light-dark(#efedea, #2f2f2f);
   }
 }
-
-/* remove OS preferences for now... */
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
