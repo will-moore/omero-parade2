@@ -16,7 +16,6 @@ export default function MosaicCount(props) {
   const ROW_ID = "File Path";
 
   function onClick(event, row){
-      console.log("Selected rows length "+selectedRows.length)
       let url = row[ROW_ID];
       let selectedIDs = selectedRows.map(r => r[ROW_ID])
       if (selectedIDs.includes(url)) {

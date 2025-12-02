@@ -1,10 +1,40 @@
 // Show an image for a given row
 
 import { useState, useEffect } from "react";
-
 import * as omezarr from "https://cdn.jsdelivr.net/npm/ome-zarr.js@latest/+esm";
 
-export default function Thumbnail(props) {
+export async function getThumbnailUrl(row){
+  if (row["File Path"]) {
+    // E.g. csv from OMERO-Biofile Finder plugin
+    if (row["Thumbnail"]) {
+      return row["Thumbnail"];
+    } else if (row["File Path"].startsWith("/webclient/")) {
+      return row["File Path"];
+    } else {
+      // Assume it's a Zarr path...
+      return omezarr.renderThumbnail(row["File Path"])
+    }
+  } else {
+    let obj_id = null;
+    let obj_col = null;
+    // Check for ROI ID first, then Image ID...
+    for (let imgCol of ["roi_id", "ROI","image_id", "Image", "Image ID"]) {
+      console.log("Checking imgCol:", imgCol, row[imgCol]);
+      if (row[imgCol] && Number.isInteger(row[imgCol])) {
+        obj_id = row[imgCol];
+        obj_col = imgCol;
+        break;
+      }
+    }
+    if (obj_id) {
+      const isRoi = (obj_col.toLowerCase().startsWith("roi"))
+      let src = `${window.OMEROWEB_INDEX}webgateway/render${ isRoi ? "_roi_" : "_" }thumbnail/${obj_id}/`;
+      return src;
+    }
+  }
+}
+
+function Thumbnail(props) {
   const { columnIndex, rowIndex, style, rowsToDisplay, columnCount, selectedRows, onClick } = props;
 
   const index = rowIndex * columnCount + columnIndex;
@@ -15,46 +45,13 @@ export default function Thumbnail(props) {
   const row = rowsToDisplay[index];
   const ROW_ID = "File Path";
   let selectedIDs = selectedRows.map(r => r[ROW_ID])
-  console.log("selected ids ", selectedIDs)
-  console.log("Thumbnail row:", row);
 
   const [imageUrl, setImageUrl] = useState(
     "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
   );
 
   useEffect(() => {
-
-    if (row["File Path"]) {
-      // E.g. csv from OMERO-Biofile Finder plugin
-      if (row["Thumbnail"]) {
-        setImageUrl(row["Thumbnail"]);
-      } else if (row["File Path"].startsWith("/webclient/")) {
-        setImageUrl(row["File Path"]);
-      } else {
-        // Assume it's a Zarr path...
-        omezarr.renderThumbnail(row["File Path"]).then((src) => {
-          setImageUrl(src);
-        });
-      }
-    } else {
-      let obj_id = null;
-      let obj_col = null;
-      // Check for ROI ID first, then Image ID...
-      for (let imgCol of ["roi_id", "ROI","image_id", "Image", "Image ID"]) {
-        console.log("Checking imgCol:", imgCol, row[imgCol]);
-        if (row[imgCol] && Number.isInteger(row[imgCol])) {
-          obj_id = row[imgCol];
-          obj_col = imgCol;
-          break;
-        }
-      }
-      if (obj_id) {
-        
-        const isRoi = (obj_col.toLowerCase().startsWith("roi"))
-        let src = `${window.OMEROWEB_INDEX}webgateway/render${ isRoi ? "_roi_" : "_" }thumbnail/${obj_id}/`;
-        setImageUrl(src);
-      }
-    }
+    getThumbnailUrl(row).then((url) => setImageUrl(url)) 
   }, [row]);
 
   return (
@@ -79,3 +76,5 @@ export default function Thumbnail(props) {
     </div>
   );
 }
+
+export default Thumbnail

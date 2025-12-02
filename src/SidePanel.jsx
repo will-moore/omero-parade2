@@ -1,5 +1,5 @@
-import * as omezarr from "https://cdn.jsdelivr.net/npm/ome-zarr.js@latest/+esm";
 import { useState } from "react";
+import {getThumbnailUrl} from "./Thumbnail";
 
 /** Show the number of rows in the table.
  * Example from https://idl.uw.edu/mosaic/web-clients/ 
@@ -13,30 +13,8 @@ export default function SidePanel(props) {
   );
 
   if (selectedRows.length == 1) {
-    let row = selectedRows[0]
-    if (row[ROW_ID]){
-      omezarr.renderThumbnail(row[ROW_ID]).then((src) => {
-        setImageUrl(src)
-      });
-    }else{
-      let obj_id = null;
-      let obj_col = null;
-      // Check for ROI ID first, then Image ID...
-      for (let imgCol of ["roi_id", "ROI","image_id", "Image", "Image ID"]) {
-        console.log("Checking imgCol:", imgCol, row[imgCol]);
-        if (row[imgCol] && Number.isInteger(row[imgCol])) {
-          obj_id = row[imgCol];
-          obj_col = imgCol;
-          break;
-        }
-      }
-      if (obj_id) {
-        
-        const isRoi = (obj_col.toLowerCase().startsWith("roi"))
-        let url = `${window.OMEROWEB_INDEX}webgateway/render${ isRoi ? "_roi_" : "_" }thumbnail/${obj_id}/`;
-        setImageUrl(url)
-      }
-    }
+    
+    getThumbnailUrl(selectedRows[0]).then((url) => setImageUrl(url)) 
 
     return (
 
@@ -67,5 +45,4 @@ export default function SidePanel(props) {
       <div>{selectedRows.length} selected objects</div>
     )
   }
-
 }
