@@ -9,6 +9,7 @@ import TableChooser from "./TableChooser";
 import NavBar from "./NavBar";
 import { FooterTable } from "./FooterTable";
 import Thumbnails from "./Thumbnails";
+import SidePanel from "./SidePanel";
 
 function App() {
   // state to hold the selected table URL
@@ -127,8 +128,9 @@ function App() {
         </div>
 
         <div style={styles.sidebar}>
-
-
+            <SidePanel
+                selectedRows={selectedRows}
+              />
         </div>
       </div>
     </>
