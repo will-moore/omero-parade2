@@ -21,7 +21,7 @@ function App() {
       flex: "1 1 auto",
       display: "flex",
       flexDirection: "row",
-      background: "#f6f6f6",
+      background: "light-dark('#efedea', '#2f2f2f')",
     },
     center: {
       flex: "1 1 auto",
@@ -33,7 +33,7 @@ function App() {
       overflow: "auto",
       padding: "15px",
       fontSize: "14px",
-      backgroundColor: "#fff",
+      backgroundColor: "light-dark('#efedea', '#2f2f2f')",
       borderLeft: "solid #333 1px",
       boxSizing: "border-box",
     },
@@ -46,7 +46,7 @@ function App() {
     footer: {
       flex: "0 0 auto",
       height: "300px",
-      background: "#fff",
+      background: "light-dark('#efedea', '#2f2f2f')",
       borderRadius: "10px",
       float: "left",
       boxSizing: "border-box",
