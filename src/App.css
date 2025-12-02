@@ -28,6 +28,7 @@
 
 .card {
   padding: 2em;
+  background: light-dark(#efedea, #2f2f2f);
 }
 
 .read-the-docs {
@@ -106,6 +107,12 @@ svg.rotating {
 th {
   position: sticky;
   top: 0;
-  background: #fff;
+  background: light-dark(#efedea, #2f2f2f);
+  border-color:light-dark(#efedea, #2f2f2f);
   z-index: 1;
+}
+
+td {
+  background: light-dark(#efedea, #2f2f2f);
+  border-color:light-dark(#efedea, #2f2f2f);
 }
