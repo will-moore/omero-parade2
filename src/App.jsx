@@ -3,9 +3,11 @@ import { useState } from "react";
 import { coordinator } from "@uwdata/mosaic-core";
 
 import "./App.css";
+import "../public/style.css"
 import { TABLE_NAME } from "./Mosaic";
 import Mosaic from "./Mosaic";
 import TableChooser from "./TableChooser";
+import { AddPlot } from "./PlotPopover";
 import NavBar from "./NavBar";
 import { FooterTable } from "./FooterTable";
 import Thumbnails from "./Thumbnails";
@@ -62,6 +64,8 @@ function App() {
   return (
     <>
       <TableChooser setTableUrl={setTableUrl} />
+
+      {/* <AddPlot /> */}
 
       <NavBar
         coordinator={coordinator()}
