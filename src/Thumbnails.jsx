@@ -9,10 +9,28 @@ const columnCount = 10;
 const columnWidth = 90;
 
 export default function MosaicCount(props) {
-  const { coordinator, table, selection, setSelected } = props;
+  const { coordinator, table, selection, setSelected, selectedRows } = props;
 
   // const [totalCount, setTotalCount] = useState(null);
   const [rowsToDisplay, setRowsToDisplay] = useState([]);
+
+  function onClick(event, url){
+      if (selectedRows.includes(url)) {
+        // toggle selection off if already selected...
+        setSelected(selectedRows.filter((d) => d !== url));
+
+      } else {
+        // if Cmd or Ctrl key held, allow multi-select
+        if (!event.metaKey && !event.ctrlKey) {
+          // no modifier key, so
+          // de-select all others and select this one...
+          setSelected([url]);
+        } else {
+          // OR: allow multiple selection...
+          setSelected([...selectedRows, url]);
+        }
+      }
+  }
 
   useEffect(() => {
     if (!selection) {
@@ -62,7 +80,7 @@ export default function MosaicCount(props) {
       Thumbnails ({rowsToDisplay.length}, rows: {Math.ceil(rowsToDisplay.length / columnCount)} ):
       <Grid
         cellComponent={Thumbnail}
-        cellProps={{ rowsToDisplay, setSelected, columnCount: columnCount }}
+        cellProps={{ rowsToDisplay, setSelected, selectedRows, columnCount: columnCount, onClick }}
         columnCount={columnCount}
         columnWidth={columnWidth}
         rowCount={Math.ceil(rowsToDisplay.length / columnCount)}

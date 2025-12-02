@@ -120,12 +120,16 @@ function App() {
                 table={TABLE_NAME}
                 selection={selection}
                 setSelected={setSelectedRows}
+                selectedRows={selectedRows}
               />
             </div>
           </div>
         </div>
 
-        <div style={styles.sidebar}></div>
+        <div style={styles.sidebar}>
+
+
+        </div>
       </div>
     </>
   );

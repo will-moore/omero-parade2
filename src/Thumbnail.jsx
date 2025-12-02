@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import * as omezarr from "https://cdn.jsdelivr.net/npm/ome-zarr.js@latest/+esm";
 
 export default function Thumbnail(props) {
-  const { columnIndex, rowIndex, style, rowsToDisplay, columnCount } = props;
+  const { columnIndex, rowIndex, style, rowsToDisplay, columnCount, selectedRows, onClick } = props;
 
   const index = rowIndex * columnCount + columnIndex;
   if (index >= rowsToDisplay.length) {
@@ -57,6 +57,11 @@ export default function Thumbnail(props) {
   return (
     <div style={style}>
       <img
+
+        onClick={(event) => {
+          onClick(event, imageUrl)
+        }}
+
         src={imageUrl}
         alt="Thumbnail"
         style={{
@@ -64,6 +69,8 @@ export default function Thumbnail(props) {
           height: "75px",
           objectFit: "cover",
           backgroundColor: "#eee",
+          boxSizing: "border-box",
+          border: selectedRows.includes(imageUrl) ? "5px solid blue" : "0px solid blue"
         }}
       />
     </div>
