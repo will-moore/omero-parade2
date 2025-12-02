@@ -87,6 +87,17 @@ export function AddPlot(props) {
       >
         Add Scatter Plot
       </button>
+    
+      <button
+        style={syles.button}
+        onClick={() => {
+          let plotId = `histogram-${Date.now()}`;
+          const xAxis = document.getElementById("xaxis-select").value;
+          addPlot({ xAxis, plotId, type: "histogram" });
+        }}
+      >
+        Add Histogram
+      </button>
     </div>
   );
 }
