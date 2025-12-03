@@ -9,6 +9,10 @@ import { loadCSV } from "@uwdata/mosaic-sql";
 import * as vg from "@uwdata/vgplot";
 
 import { ScatterPlot } from "./ScatterPlot";
+
+import { Histogram } from "./Histogram";
+import { BarChart } from "./BarChart";
+import { AddPlot } from "./PlotPopover";
 import { AddPlot } from "./AddPlot";
 import OmeSpinner from "./OmeSpinner";
 
@@ -72,19 +76,47 @@ function Mosaic(props) {
         </div>
       ) : <OmeSpinner />}
 
-      {plots.map((plotConfig, index) => (
-        <div key={plotConfig.plotId || index}>
-          <ScatterPlot
-            coordinator={coordinator()}
-            table={TABLE_NAME}
-            selection={selection}
-            xAxis={plotConfig.xAxis}
-            yAxis={plotConfig.yAxis}
-            plotId={plotConfig.plotId}
-            removePlot={removePlot}
-          />
-        </div>
-      ))}
+      {plots.map((plotConfig, index) => 
+        {if (plotConfig.type == 'scatter') {
+          return (
+            <div key={plotConfig.plotId}>
+              <ScatterPlot //! 
+                coordinator={coordinator()}
+                table={TABLE_NAME}
+                selection={selection}
+                xAxis={plotConfig.xAxis}
+                yAxis={plotConfig.yAxis}
+                plotId={plotConfig.plotId}
+                removePlot={removePlot}
+              />
+            </div>
+        )} else if (plotConfig.type == 'histogram') {
+          return (
+            <div key={plotConfig.plotId || index}>
+              <Histogram //! 
+                coordinator={coordinator()}
+                table={TABLE_NAME}
+                selection={selection}
+                xAxis={plotConfig.xAxis}
+                plotId={plotConfig.plotId}
+                removePlot={removePlot}
+              />
+            </div>
+        )} else if (plotConfig.type == 'bar') {
+          return (
+            <div key={plotConfig.plotId || index}>
+              <BarChart //! 
+                coordinator={coordinator()}
+                table={TABLE_NAME}
+                selection={selection}
+                yAxis={plotConfig.yAxis}
+                plotId={plotConfig.plotId}
+                removePlot={removePlot}
+              />
+            </div>
+          )}
+        }
+      )}
     </>
   );
 }

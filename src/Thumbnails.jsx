@@ -9,10 +9,31 @@ const columnCount = 10;
 const columnWidth = 90;
 
 export default function MosaicCount(props) {
-  const { coordinator, table, selection, setSelected } = props;
-
+  const { coordinator, table, selection, setSelectedRows, selectedRows } = props;
+ 
   // const [totalCount, setTotalCount] = useState(null);
   const [rowsToDisplay, setRowsToDisplay] = useState([]);
+  const ROW_ID = "File Path";
+
+  function onClick(event, row){
+      let url = row[ROW_ID];
+      let selectedIDs = selectedRows.map(r => r[ROW_ID])
+      if (selectedIDs.includes(url)) {
+        // toggle selection off if already selected...
+        setSelectedRows(selectedRows.filter((d) => d[ROW_ID] !== url));
+
+      } else {
+        // if Cmd or Ctrl key held, allow multi-select
+        if (!event.metaKey && !event.ctrlKey) {
+          // no modifier key, so
+          // de-select all others and select this one...
+          setSelectedRows([row]);
+        } else {
+          // OR: allow multiple selection...
+          setSelectedRows([...selectedRows, row]);
+        }
+      }
+  }
 
   useEffect(() => {
     if (!selection) {
@@ -44,7 +65,7 @@ export default function MosaicCount(props) {
       },
       queryPending: () => {
         // Clear selected images when a new query is pending...
-        setSelected([]);
+        setSelectedRows([]);
       },
       queryError: () => {
         // There is an error running the query.
@@ -62,7 +83,7 @@ export default function MosaicCount(props) {
       Thumbnails ({rowsToDisplay.length}, rows: {Math.ceil(rowsToDisplay.length / columnCount)} ):
       <Grid
         cellComponent={Thumbnail}
-        cellProps={{ rowsToDisplay, setSelected, columnCount: columnCount }}
+        cellProps={{ rowsToDisplay, setSelectedRows, selectedRows, columnCount: columnCount, onClick }}
         columnCount={columnCount}
         columnWidth={columnWidth}
         rowCount={Math.ceil(rowsToDisplay.length / columnCount)}

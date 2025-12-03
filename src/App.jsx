@@ -3,12 +3,15 @@ import { useState } from "react";
 import { coordinator } from "@uwdata/mosaic-core";
 
 import "./App.css";
+import "../public/style.css"
 import { TABLE_NAME } from "./Mosaic";
 import Mosaic from "./Mosaic";
 import TableChooser from "./TableChooser";
+import { AddPlot } from "./PlotPopover";
 import NavBar from "./NavBar";
 import { FooterTable } from "./FooterTable";
 import Thumbnails from "./Thumbnails";
+import SidePanel from "./SidePanel";
 
 function App() {
   // state to hold the selected table URL
@@ -59,6 +62,8 @@ function App() {
   return (
     <>
       <TableChooser setTableUrl={setTableUrl} />
+
+      {/* <AddPlot /> */}
 
       <NavBar
         coordinator={coordinator()}
@@ -116,13 +121,18 @@ function App() {
                 coordinator={coordinator()}
                 table={TABLE_NAME}
                 selection={selection}
-                setSelected={setSelectedRows}
+                setSelectedRows={setSelectedRows}
+                selectedRows={selectedRows}
               />
             </div>
           </div>
         </div>
 
-        <div style={styles.sidebar}></div>
+        <div style={styles.sidebar}>
+            <SidePanel
+                selectedRows={selectedRows}
+              />
+        </div>
       </div>
     </>
   );
