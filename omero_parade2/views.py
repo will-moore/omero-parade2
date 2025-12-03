@@ -40,11 +40,10 @@ def index(request, conn=None, **kwargs):
 
     # update links to static files
     static_dir = static.static('omero_parade2/')
-    html = html.replace('href="/static/omero_parade2/', 'href="%s' % static_dir)
-    html = html.replace('src="/static/omero_parade2/', 'src="%s' % static_dir)
+    html = html.replace('href="/assets/', 'href="%sassets/' % static_dir)
+    html = html.replace('src="/assets/', 'src="%sassets/' % static_dir)
     html = html.replace('const STATIC_DIR = "";',
                         'const STATIC_DIR = "%s";' % static_dir[0:-1])
-    
 
     omeroweb_index = reverse('index')
     # make url abosolute

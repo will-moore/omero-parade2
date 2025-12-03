@@ -9,6 +9,7 @@ import { loadCSV } from "@uwdata/mosaic-sql";
 import * as vg from "@uwdata/vgplot";
 
 import { ScatterPlot } from "./ScatterPlot";
+
 import { Histogram } from "./Histogram";
 import { BarChart } from "./BarChart";
 import { AddPlot } from "./PlotPopover";

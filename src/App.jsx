@@ -11,6 +11,7 @@ import { AddPlot } from "./PlotPopover";
 import NavBar from "./NavBar";
 import { FooterTable } from "./FooterTable";
 import Thumbnails from "./Thumbnails";
+import SidePanel from "./SidePanel";
 
 function App() {
   // state to hold the selected table URL
@@ -126,13 +127,18 @@ function App() {
                 coordinator={coordinator()}
                 table={TABLE_NAME}
                 selection={selection}
-                setSelected={setSelectedRows}
+                setSelectedRows={setSelectedRows}
+                selectedRows={selectedRows}
               />
             </div>
           </div>
         </div>
 
-        <div style={styles.sidebar}></div>
+        <div style={styles.sidebar}>
+            <SidePanel
+                selectedRows={selectedRows}
+              />
+        </div>
       </div>
     </>
   );
