@@ -62,6 +62,7 @@ function App() {
 
   const [selection, setSelection] = useState(null);
   const [click, setClick] = useState(null);
+  const [barAxisWidth, setBarAxisWidth] = useState(null);
 
   return (
     <>
@@ -87,6 +88,8 @@ function App() {
                 selection={selection}
                 setClick={setClick}
                 click={click}
+                setBarAxisWidth={setBarAxisWidth}
+                barAxisWidth={barAxisWidth}
               />
             )}
           </div>

@@ -19,7 +19,7 @@ export const TABLE_NAME = "my_table";
 
 function Mosaic(props) {
 
-  const { tableUrl, setSelection, selection, setClick, click } = props;
+  const { tableUrl, setSelection, selection, setClick, click, setBarAxisWidth, barAxisWidth } = props;
 
   // const [selection, setSelection] = useState(null);
   const [plots, setPlots] = useState([]);
@@ -47,9 +47,11 @@ function Mosaic(props) {
 
       const newSelection = Selection.crossfilter();
       const newClick = Selection.intersect();
+      const barAxisWidth = Selection.intersect();
       // trigger a re-render with the new selection
       setSelection(newSelection);
       setClick(newClick)
+      setBarAxisWidth(barAxisWidth)
 
       // debug - html table output
       let html = vg.table({
@@ -111,6 +113,7 @@ function Mosaic(props) {
                 table={TABLE_NAME}
                 selection={selection}
                 click={click}
+                barAxisWidth={barAxisWidth}
                 yAxis={plotConfig.yAxis}
                 plotId={plotConfig.plotId}
                 removePlot={removePlot}

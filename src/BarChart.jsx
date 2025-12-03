@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 /** Show the number of rows in the table.
  * If a `selection` is provided, show the filtered number of rows as well. */
 export function BarChart(props) {
-  const { coordinator, table, selection, click, xAxis, yAxis, plotId, removePlot } =
+  const { coordinator, table, selection, click, barAxisWidth, xAxis, yAxis, plotId, removePlot } =
     props;
 
   const myRef = useRef(null);
@@ -20,6 +20,7 @@ export function BarChart(props) {
     table_name, 
     selection, 
     click,
+    barAxisWidth,
     yaxis, 
     width, 
     height, 
@@ -27,8 +28,22 @@ export function BarChart(props) {
     ) {
 
     return vg.plot(
+        // This rule is just there to be able to click-expand the x-axis
+        // It was tied to the highlight, but that's not clickable if the bar is too small
+        vg.ruleY(
+          vg.from(table_name),                    
+          {
+            y: yaxis,
+            stroke: "black",
+            strokeWidth: 250,                     
+            strokeOpacity: 0.0001,                
+            pointerEvents: "stroke"               
+          }
+        ),
+        vg.toggleY({ as: barAxisWidth }),
+
         vg.barX(
-          vg.from(table_name),
+          vg.from(table_name, {filterBy: barAxisWidth}),
           {x: vg.count(), y: yaxis, fill: "#ccc", fillOpacity: 0.2}
         ),
         vg.barX(
@@ -42,8 +57,8 @@ export function BarChart(props) {
         ),
         vg.toggleY({ as: selection }),
         vg.toggleY({as: click}),
-        vg.highlight({by: click}),
-        vg.xyDomain(vg.Fixed),
+        vg.highlight({by: click, opacity: 0.1, fill: "grey", r: 3}),
+        // vg.xyDomain(vg.Fixed),
         vg.xLabel("Count"),
         vg.yLabel(yaxis),
         vg.yLabelAnchor("top"),
@@ -59,6 +74,7 @@ export function BarChart(props) {
       table,
       selection,
       click,
+      barAxisWidth,
       yAxis,
       500,
       300,
@@ -80,7 +96,7 @@ export function BarChart(props) {
         console.log("new selection", selection.clauses);
       }
     };
-  }, [coordinator, table, selection, click]);
+  }, [coordinator, table, selection, click, barAxisWidth]);
 
   return (
     <>
