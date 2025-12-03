@@ -13,7 +13,6 @@ import { ScatterPlot } from "./ScatterPlot";
 import { Histogram } from "./Histogram";
 import { BarChart } from "./BarChart";
 import { AddPlot } from "./PlotPopover";
-import { AddPlot } from "./AddPlot";
 import OmeSpinner from "./OmeSpinner";
 
 export const TABLE_NAME = "my_table";
