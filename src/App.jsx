@@ -60,6 +60,7 @@ function App() {
   };
 
   const [selection, setSelection] = useState(null);
+  const [click, setClick] = useState(null);
 
   return (
     <>
@@ -83,6 +84,8 @@ function App() {
                 tableUrl={tableUrl}
                 setSelection={setSelection}
                 selection={selection}
+                setClick={setClick}
+                click={click}
               />
             )}
           </div>

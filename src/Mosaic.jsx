@@ -18,7 +18,7 @@ export const TABLE_NAME = "my_table";
 
 function Mosaic(props) {
 
-  const { tableUrl, setSelection, selection } = props;
+  const { tableUrl, setSelection, selection, setClick, click } = props;
 
   // const [selection, setSelection] = useState(null);
   const [plots, setPlots] = useState([]);
@@ -44,9 +44,11 @@ function Mosaic(props) {
         .coordinator()
         .exec([loadCSV(TABLE_NAME, tableUrl)]);
 
-      const newSelection = Selection.intersect();
+      const newSelection = Selection.crossfilter();
+      const newClick = Selection.intersect();
       // trigger a re-render with the new selection
       setSelection(newSelection);
+      setClick(newClick)
 
       // debug - html table output
       let html = vg.table({
@@ -107,6 +109,7 @@ function Mosaic(props) {
                 coordinator={coordinator()}
                 table={TABLE_NAME}
                 selection={selection}
+                click={click}
                 yAxis={plotConfig.yAxis}
                 plotId={plotConfig.plotId}
                 removePlot={removePlot}

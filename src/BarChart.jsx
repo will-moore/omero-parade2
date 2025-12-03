@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 /** Show the number of rows in the table.
  * If a `selection` is provided, show the filtered number of rows as well. */
 export function BarChart(props) {
-  const { coordinator, table, selection, xAxis, yAxis, plotId, removePlot } =
+  const { coordinator, table, selection, click, xAxis, yAxis, plotId, removePlot } =
     props;
 
   const myRef = useRef(null);
@@ -19,22 +19,30 @@ export function BarChart(props) {
     function barChart(
     table_name, 
     selection, 
+    click,
     yaxis, 
     width, 
     height, 
     plotId
     ) {
+
     return vg.plot(
         vg.barX(
-        vg.from(table_name, {filterBy: selection}),
-        {
-            x: vg.count(),
-            y: yaxis,
-            fill: "darkgreen",
-            sort: {y: "-x", limit: 20}
-        }
+          vg.from(table_name),
+          {x: vg.count(), y: yaxis, fill: "#ccc", fillOpacity: 0.2}
+        ),
+        vg.barX(
+          vg.from(table_name, {filterBy: selection}),
+          {
+              x: vg.count(),
+              y: yaxis,
+              fill: "darkgreen",
+              sort: {y: "-x", limit: 20}
+          }
         ),
         vg.toggleY({ as: selection }),
+        vg.toggleY({as: click}),
+        vg.highlight({by: click}),
         vg.xyDomain(vg.Fixed),
         vg.xLabel("Count"),
         vg.yLabel(yaxis),
@@ -50,6 +58,7 @@ export function BarChart(props) {
     let plotElement = barChart(
       table,
       selection,
+      click,
       yAxis,
       500,
       300,
@@ -71,7 +80,7 @@ export function BarChart(props) {
         console.log("new selection", selection.clauses);
       }
     };
-  }, [coordinator, table, selection]);
+  }, [coordinator, table, selection, click]);
 
   return (
     <>

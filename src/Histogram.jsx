@@ -24,12 +24,21 @@ export function Histogram(props) {
         plotId
     ) {
     return vg.plot(
-        vg.rectY(vg.from(table_name, { filterBy: selection }), {
-        x: vg.bin(xaxis),
-        y: vg.count(),
-        fill: "darkorange",
-        insetLeft: 0.5,
-        insetRight: 0.5,
+        vg.rectY(vg.from(table_name), {
+          x: vg.bin(xaxis),
+          y: vg.count(),
+          fill: "#ccc",
+          fillOpacity: 0.2,
+          insetLeft: 0.5,
+          insetRight: 0.5,
+        }),
+        vg.rectY(
+          vg.from(table_name, { filterBy: selection }), {
+          x: vg.bin(xaxis),
+          y: vg.count(),
+          fill: "darkorange",
+          insetLeft: 0.5,
+          insetRight: 0.5,
         }),
         vg.intervalX({ as: selection }),
         vg.xDomain(vg.Fixed),
