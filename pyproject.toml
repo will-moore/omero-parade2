@@ -33,3 +33,6 @@ Download = "https://github.com/will-moore/omero-parade2/v0.1.0.dev0.tar.gz"
 test = [
     "pytest"
 ]
+
+[tool.setuptools]
+packages = ["omero_parade2"]
