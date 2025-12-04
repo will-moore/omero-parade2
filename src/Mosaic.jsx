@@ -12,7 +12,6 @@ import { ScatterPlot } from "./ScatterPlot";
 
 import { Histogram } from "./Histogram";
 import { BarChart } from "./BarChart";
-import { AddPlot } from "./PlotPopover";
 import OmeSpinner from "./OmeSpinner";
 
 export const TABLE_NAME = "my_table";
@@ -28,14 +27,7 @@ const plotStyle = {
 
 function Mosaic(props) {
 
-  const { tableUrl, setSelection, selection } = props;
-
-  // const [selection, setSelection] = useState(null);
-  const [plots, setPlots] = useState([]);
-
-  function addPlot(plotConfig) {
-    setPlots([...plots, plotConfig]);
-  }
+  const { tableUrl, setSelection, selection, plots, setPlots } = props;
 
   function removePlot(plotId) {
     setPlots(plots.filter((p) => p.plotId !== plotId));
@@ -72,17 +64,8 @@ function Mosaic(props) {
 
   return (
     <>
-      {/* only render when selection is set */}
-      {selection ? (
-        <div>
-          <AddPlot
-            coordinator={coordinator()}
-            table={TABLE_NAME}
-            selection={selection}
-            addPlot={addPlot}
-          />
-        </div>
-      ) : <OmeSpinner />}
+      {/* Show spinner while DuckDB loads... */}
+      {!selection && <OmeSpinner />}
 
       {plots.map((plotConfig, index) => 
         {if (plotConfig.type == 'scatter') {

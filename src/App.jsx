@@ -7,7 +7,6 @@ import "../public/style.css"
 import { TABLE_NAME } from "./Mosaic";
 import Mosaic from "./Mosaic";
 import TableChooser from "./TableChooser";
-import { AddPlot } from "./PlotPopover";
 import NavBar from "./NavBar";
 import { FooterTable } from "./FooterTable";
 import Thumbnails from "./Thumbnails";
@@ -18,6 +17,7 @@ function App() {
   const [tableUrl, setTableUrl] = useState(null);
   const [footerTab, setFooterTab] = useState("table");
   const [selectedRows, setSelectedRows] = useState([]);
+  const [plots, setPlots] = useState([]);
 
   const styles = {
     main: {
@@ -66,12 +66,12 @@ function App() {
     <>
       <TableChooser setTableUrl={setTableUrl} />
 
-      {/* <AddPlot /> */}
-
       <NavBar
         coordinator={coordinator()}
         table={TABLE_NAME}
         selection={selection}
+        plots={plots}
+        setPlots={setPlots}
       />
 
       {/* main content */}
@@ -84,6 +84,8 @@ function App() {
                 tableUrl={tableUrl}
                 setSelection={setSelection}
                 selection={selection}
+                plots={plots}
+                setPlots={setPlots}
               />
             )}
           </div>

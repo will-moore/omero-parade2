@@ -1,10 +1,13 @@
 import { makeClient } from "@uwdata/mosaic-core";
 import { count, Query } from "@uwdata/mosaic-sql";
 import { useState, useEffect, useRef  } from "react";
+import {coordinator as coord} from "@uwdata/mosaic-core";
 // import { scatterPlot, barChart, histogram} from "@uwdata/mosaic-core";
 
 export function AddPlot(props) {
-  const { coordinator, table, selection, addPlot } = props;
+  const { table, selection, addPlot } = props;
+
+  const coordinator = coord();
 
   const [numberColNames, setNumberColNames] = useState([]);
   const [stringColNames, setStringColNames] = useState([]);
@@ -63,13 +66,9 @@ export function AddPlot(props) {
     return (
     <>
     {/* Popover Button */}
-    <div id="controls" className="hidden">
-      <h1 style={{margin: "0 20px", fontSize: "27px", fontWeight: "200"}}>Parade</h1>
-      <button className="add" popoverTarget="addPlotDialog">
-        Add Plot
-      </button>
-      <div style={{flexGrow: "1"}}></div>
-    </div>
+    <button className="add" popoverTarget="addPlotDialog" style={{padding: "8px"}}>
+      Add Plot
+    </button>
 
     {/* Popover */}
     <div id="addPlotDialog" popover="auto" className="popover">
