@@ -17,6 +17,14 @@ import OmeSpinner from "./OmeSpinner";
 
 export const TABLE_NAME = "my_table";
 
+const plotStyle = {
+  float: "left",
+  margin: "10px",
+  padding: "10px",
+  borderRadius: "10px",
+  background: "#fff",
+}
+
 function Mosaic(props) {
 
   const { tableUrl, setSelection, selection } = props;
@@ -78,7 +86,7 @@ function Mosaic(props) {
       {plots.map((plotConfig, index) => 
         {if (plotConfig.type == 'scatter') {
           return (
-            <div key={plotConfig.plotId}>
+            <div style={plotStyle} key={plotConfig.plotId}>
               <ScatterPlot //! 
                 coordinator={coordinator()}
                 table={TABLE_NAME}
@@ -91,7 +99,7 @@ function Mosaic(props) {
             </div>
         )} else if (plotConfig.type == 'histogram') {
           return (
-            <div key={plotConfig.plotId || index}>
+            <div style={plotStyle} key={plotConfig.plotId}>
               <Histogram //! 
                 coordinator={coordinator()}
                 table={TABLE_NAME}
@@ -103,7 +111,7 @@ function Mosaic(props) {
             </div>
         )} else if (plotConfig.type == 'bar') {
           return (
-            <div key={plotConfig.plotId || index}>
+            <div style={plotStyle} key={plotConfig.plotId}>
               <BarChart //! 
                 coordinator={coordinator()}
                 table={TABLE_NAME}
